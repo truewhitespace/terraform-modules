@@ -1,0 +1,5 @@
+.idea
+docker-compose.yml
+.terraform.lock.hcl
+.terraform
+terraform.tfstate*
