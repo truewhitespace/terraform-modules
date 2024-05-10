@@ -5,6 +5,7 @@ variable "cluster_name" {}
 variable "environment" {}
 variable "external_access_cidr" {}
 variable "access_entries" {}
+variable "instance_type" {default="t3.2xlarge"}
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
@@ -68,7 +69,7 @@ module "eks" {
       max_size     = 10
       desired_size = 3
 
-      instance_types = ["t3.2xlarge"]
+      instance_types = [var.instance_type]
       capacity_type  = "SPOT"
 
       iam_role_additional_policies = {
