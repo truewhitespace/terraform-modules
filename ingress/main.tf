@@ -304,21 +304,11 @@ resource "helm_release" "ingress-nginx" {
   }
 
   set {
-    name  = "controller.service.targetPorts.http"
-    value = "http"
-  }
-
-  set {
     name  = "controller.config.use-forwarded-headers"
     value = "true"
     type  = "string"
   }
 
-  #  set {
-  #    name  = "controller.config.redirect-to-https"
-  #    value = "true"
-  #    type  = "string"
-  #  }
 
   set {
     name  = "controller.config.ssl-redirect"
@@ -329,6 +319,11 @@ resource "helm_release" "ingress-nginx" {
   set {
     name  = "controller.service.targetPorts.https"
     value = "http"
+  }
+
+  set {
+    name = "allowSnippetAnnotations"
+    value= "true"
   }
 
 }
