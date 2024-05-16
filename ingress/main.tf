@@ -317,6 +317,12 @@ resource "helm_release" "ingress-nginx" {
   }
 
   set {
+    name  = "controller.config.X-Forwarded-Proto"
+    value = "https"
+    type  = "string"
+  }
+
+  set {
     name  = "controller.service.targetPorts.https"
     value = "http"
   }
