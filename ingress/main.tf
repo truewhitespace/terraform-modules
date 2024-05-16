@@ -322,7 +322,7 @@ resource "helm_release" "ingress-nginx" {
   }
 
   set {
-    name = "allowSnippetAnnotations"
+    name = "controller.allowSnippetAnnotations"
     value= "true"
   }
 
