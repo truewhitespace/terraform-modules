@@ -280,6 +280,7 @@ resource "helm_release" "ingress-nginx" {
   name       = "ingress-nginx"
   chart      = "ingress-nginx"
 
+  version     = "4.10.1"
   namespace        = "ingress-nginx"
   create_namespace = true
 
@@ -312,15 +313,15 @@ resource "helm_release" "ingress-nginx" {
 
   set {
     name  = "controller.config.ssl-redirect"
-    value = "false"
+    value = "true"
     type  = "string"
   }
 
-  set {
-    name  = "controller.config.X-Forwarded-Proto"
-    value = "https"
-    type  = "string"
-  }
+  # set {
+  #   name  = "controller.config.X-Forwarded-Proto"
+  #   value = "https"
+  #   type  = "string"
+  # }
 
   set {
     name  = "controller.service.targetPorts.https"
