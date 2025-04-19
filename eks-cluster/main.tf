@@ -62,8 +62,8 @@ module "eks" {
   eks_managed_node_group_defaults = {
     instance_types = ["m6i.large", "m5.large", "m5n.large", "m5zn.large"]
     block_device_mappings = {
-        sdb = {
-          device_name = "/dev/sdb"
+      xvda = {
+          device_name = "/dev/xvda"
           ebs = {
             volume_size           = 1000
             volume_type           = "gp3"
@@ -74,7 +74,7 @@ module "eks" {
           }
         }
       }
-  }
+    }
 
   eks_managed_node_groups = {
     cluster = {
@@ -85,8 +85,8 @@ module "eks" {
       instance_types = [var.instance_type]
       capacity_type  = "SPOT"
       block_device_mappings = {
-          sdb = {
-            device_name = "/dev/sdb"
+        xvda = {
+            device_name = "/dev/xvda"
             ebs = {
               volume_size           = 1000
               volume_type           = "gp3"
@@ -131,5 +131,3 @@ output "oidc_provider_arn" {
 output "cluster_id" {
     value = module.eks.cluster_id
 }
-
-
