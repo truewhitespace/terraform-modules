@@ -84,7 +84,19 @@ module "eks" {
 
       instance_types = [var.instance_type]
       capacity_type  = "SPOT"
-
+      block_device_mappings = {
+          sdb = {
+            device_name = "/dev/sdb"
+            ebs = {
+              volume_size           = 1000
+              volume_type           = "gp3"
+              iops                  = 3000
+              #throughput            = 150
+              #encrypted             = true
+              delete_on_termination = true
+            }
+          }
+        }
       iam_role_additional_policies = {
         AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
       }
