@@ -12,7 +12,7 @@ module "eks" {
   version = "~> 20.0"
 
   cluster_name    = var.cluster_name
-  cluster_version = "1.28"
+  cluster_version = "1.29"
 
   cluster_security_group_additional_rules = {
     egress_nodes_ephemeral_ports_tcp = {
@@ -61,6 +61,19 @@ module "eks" {
   # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
     instance_types = ["m6i.large", "m5.large", "m5n.large", "m5zn.large"]
+    block_device_mappings = {
+        sdb = {
+          device_name = "/dev/sdb"
+          ebs = {
+            volume_size           = 1000
+            volume_type           = "gp3"
+            iops                  = 3000
+            #throughput            = 150
+            #encrypted             = true
+            delete_on_termination = true
+          }
+        }
+      }
   }
 
   eks_managed_node_groups = {
