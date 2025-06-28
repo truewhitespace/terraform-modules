@@ -9,7 +9,7 @@ variable "instance_type" {default="t3.2xlarge"}
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "~> 20.0"
+  version = "20.37.1"
 
   cluster_name    = var.cluster_name
   cluster_version = "1.29"
