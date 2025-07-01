@@ -12,7 +12,7 @@ module "eks" {
   version = "20.37.1"
 
   cluster_name    = var.cluster_name
-  cluster_version = "1.29"
+  cluster_version = "1.30"
 
   cluster_security_group_additional_rules = {
     egress_nodes_ephemeral_ports_tcp = {
@@ -83,7 +83,7 @@ module "eks" {
       desired_size = 3
 
       instance_types = [var.instance_type]
-      capacity_type  = "SPOT"
+      # capacity_type  = "SPOT"
       block_device_mappings = {
         xvda = {
             device_name = "/dev/xvda"
