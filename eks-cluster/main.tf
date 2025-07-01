@@ -83,7 +83,7 @@ module "eks" {
       desired_size = 3
 
       instance_types = [var.instance_type]
-      # capacity_type  = "SPOT"
+      capacity_type  = "ON_DEMAND"
       block_device_mappings = {
         xvda = {
             device_name = "/dev/xvda"
