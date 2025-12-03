@@ -5,7 +5,7 @@ variable "function_name" {
 
 variable "image_uri" {
   description = "Docker image for lambda"
-  type = string
+  type        = string
 }
 variable "timeout" {
   description = "Lambda timeout in seconds"
@@ -39,11 +39,11 @@ variable "role_name" {
 variable "policy_name" {
   description = "IAM policy name for Lambda"
   type        = string
-  default = ""
+  default     = ""
 }
 
 variable "policy_statements" {
   description = "List of IAM policy statements for Lambda"
   type        = list(any)
-  default = []
+  default     = []
 }

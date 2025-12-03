@@ -42,7 +42,7 @@ resource "kubernetes_service_account" "service-account" {
   metadata {
     name      = "aws-load-balancer-controller"
     namespace = "kube-system"
-    labels    = {
+    labels = {
       "app.kubernetes.io/name"      = "aws-load-balancer-controller"
       "app.kubernetes.io/component" = "controller"
     }
@@ -54,7 +54,7 @@ resource "kubernetes_service_account" "service-account" {
 }
 
 module "lb_role" {
-  source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+  source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts"
 
   role_name                              = "${terraform.workspace}_eks_lb"
   attach_load_balancer_controller_policy = true
@@ -79,33 +79,35 @@ resource "aws_iam_role" "route53_modification" {
   assume_role_policy = data.aws_iam_policy_document.web_identity_assume.json # (not shown)
 
   name = "route53_modification_role"
+}
 
-  inline_policy {
-    name = "route53_modification_policy"
+resource "aws_iam_role_policy" "policies" {
+  name = "route53_modification_policy"
 
-    policy = jsonencode({
-      Version   = "2012-10-17"
-      Statement = [
-        {
-          Effect   = "Allow"
-          Action   = ["route53:ChangeResourceRecordSets"]
-          Resource = ["arn:aws:route53:::hostedzone/*"]
-        },
-        {
-          Effect   = "Allow"
-          Action   = ["route53:ListHostedZones", "route53:ListResourceRecordSets", "route53:ListTagsForResource"]
-          Resource = "*"
-        }
-      ]
-    })
-  }
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = ["route53:ChangeResourceRecordSets"]
+        Resource = ["arn:aws:route53:::hostedzone/*"]
+      },
+      {
+        Effect   = "Allow"
+        Action   = ["route53:ListHostedZones", "route53:ListResourceRecordSets", "route53:ListTagsForResource"]
+        Resource = "*"
+      }
+    ]
+  })
+
+  role = aws_iam_role.route53_modification.name
 }
 
 resource "kubernetes_service_account" "external_dns_service_account" {
   metadata {
     name      = var.external_dns_service_account
     namespace = "external-dns"
-    labels    = {
+    labels = {
       "app.kubernetes.io/name" = var.external_dns_service_account
     }
     annotations = {
@@ -227,7 +229,7 @@ resource "aws_acm_certificate" "cert" {
 }
 
 resource "aws_acm_certificate_validation" "validation" {
-  certificate_arn         = aws_acm_certificate.cert.arn
+  certificate_arn = aws_acm_certificate.cert.arn
   validation_record_fqdns = concat(
     [
       for record in aws_route53_record.record : record.fqdn
@@ -251,7 +253,7 @@ data "aws_iam_policy_document" "web_identity_assume" {
     #    resources = ["*"]
 
     principals {
-      type        = "Federated"
+      type = "Federated"
       identifiers = [
         data.aws_iam_openid_connect_provider.oidc_provider.arn
       ]
@@ -280,7 +282,7 @@ resource "helm_release" "ingress-nginx" {
   name       = "ingress-nginx"
   chart      = "ingress-nginx"
 
-  version     = "4.10.1"
+  version          = "4.10.1"
   namespace        = "ingress-nginx"
   create_namespace = true
 
@@ -329,8 +331,8 @@ resource "helm_release" "ingress-nginx" {
   }
 
   set {
-    name = "controller.allowSnippetAnnotations"
-    value= "true"
+    name  = "controller.allowSnippetAnnotations"
+    value = "true"
   }
 
 }

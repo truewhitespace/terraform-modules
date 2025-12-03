@@ -5,7 +5,7 @@ variable "cluster_name" {}
 variable "environment" {}
 variable "external_access_cidr" {}
 variable "access_entries" {}
-variable "instance_type" {default="t3.2xlarge"}
+variable "instance_type" { default = "t3.2xlarge" }
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
@@ -63,18 +63,18 @@ module "eks" {
     instance_types = ["m6i.large", "m5.large", "m5n.large", "m5zn.large"]
     block_device_mappings = {
       xvda = {
-          device_name = "/dev/xvda"
-          ebs = {
-            volume_size           = 1000
-            volume_type           = "gp3"
-            iops                  = 3000
-            #throughput            = 150
-            #encrypted             = true
-            delete_on_termination = true
-          }
+        device_name = "/dev/xvda"
+        ebs = {
+          volume_size = 1000
+          volume_type = "gp3"
+          iops        = 3000
+          #throughput            = 150
+          #encrypted             = true
+          delete_on_termination = true
         }
       }
     }
+  }
 
   eks_managed_node_groups = {
     cluster = {
@@ -86,17 +86,17 @@ module "eks" {
       capacity_type  = "ON_DEMAND"
       block_device_mappings = {
         xvda = {
-            device_name = "/dev/xvda"
-            ebs = {
-              volume_size           = 1000
-              volume_type           = "gp3"
-              iops                  = 3000
-              #throughput            = 150
-              #encrypted             = true
-              delete_on_termination = true
-            }
+          device_name = "/dev/xvda"
+          ebs = {
+            volume_size = 1000
+            volume_type = "gp3"
+            iops        = 3000
+            #throughput            = 150
+            #encrypted             = true
+            delete_on_termination = true
           }
         }
+      }
       iam_role_additional_policies = {
         AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
       }
@@ -111,7 +111,7 @@ module "eks" {
 
   tags = {
     Environment = var.environment
-    Repo = "truewhitespace/terraform-modules"
+    Repo        = "truewhitespace/terraform-modules"
     Terraform   = "true"
   }
 }
@@ -125,9 +125,9 @@ output "cluster_endpoint" {
 }
 
 output "oidc_provider_arn" {
-    value = module.eks.oidc_provider_arn
+  value = module.eks.oidc_provider_arn
 }
 
 output "cluster_id" {
-    value = module.eks.cluster_id
+  value = module.eks.cluster_id
 }

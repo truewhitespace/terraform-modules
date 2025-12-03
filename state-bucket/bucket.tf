@@ -10,8 +10,8 @@ resource "aws_s3_bucket" "state" {
 }
 
 resource "aws_dynamodb_table" "lock_table" {
-  name     = var.name
-  hash_key = "LockID"
+  name         = var.name
+  hash_key     = "LockID"
   billing_mode = "PAY_PER_REQUEST"
   attribute {
     name = "LockID"

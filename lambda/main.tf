@@ -13,8 +13,8 @@ resource "aws_iam_role" "this" {
 
 resource "aws_iam_role_policy" "this" {
   count = length(var.policy_statements) > 0 ? 1 : 0
-  name = var.policy_name
-  role = aws_iam_role.this.id
+  name  = var.policy_name
+  role  = aws_iam_role.this.id
   policy = jsonencode({
     Version   = "2012-10-17",
     Statement = var.policy_statements

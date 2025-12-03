@@ -50,13 +50,13 @@ variable "role_name" {
 variable "policy_name" {
   description = "IAM policy name for Lambda"
   type        = string
-  default = ""
+  default     = ""
 }
 
 variable "policy_statements" {
   description = "List of IAM policy statements for Lambda"
   type        = list(any)
-  default = []
+  default     = []
 }
 
 variable "reserved_concurrent_executions" {
