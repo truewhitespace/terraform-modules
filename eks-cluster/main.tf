@@ -78,12 +78,12 @@ module "eks" {
 
   eks_managed_node_groups = {
     cluster = {
-      min_size     = 3
+      min_size     = 2
       max_size     = 10
-      desired_size = 3
+      desired_size = 2
 
       instance_types = [var.instance_type]
-      capacity_type  = "ON_DEMAND"
+      capacity_type  = "SPOT"
       block_device_mappings = {
         xvda = {
           device_name = "/dev/xvda"
