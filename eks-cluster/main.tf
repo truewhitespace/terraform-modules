@@ -12,7 +12,7 @@ module "eks" {
   version = "20.37.1"
 
   cluster_name    = var.cluster_name
-  cluster_version = "1.30"
+  cluster_version = "1.36"
 
   cluster_security_group_additional_rules = {
     egress_nodes_ephemeral_ports_tcp = {
