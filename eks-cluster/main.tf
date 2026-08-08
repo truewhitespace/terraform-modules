@@ -60,16 +60,21 @@ module "eks" {
 
   # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
-    instance_types = ["m6i.large", "m5.large", "m5n.large", "m5zn.large"]
+    instance_types = [
+      "m6i.large",
+      "m5.large",
+      "m5n.large",
+      "m5zn.large"
+    ]
+
     block_device_mappings = {
       xvda = {
         device_name = "/dev/xvda"
+
         ebs = {
-          volume_size = 1000
-          volume_type = "gp3"
-          iops        = 3000
-          #throughput            = 150
-          #encrypted             = true
+          volume_size           = 100
+          volume_type           = "gp3"
+          iops                  = 3000
           delete_on_termination = true
         }
       }
@@ -77,31 +82,54 @@ module "eks" {
   }
 
   eks_managed_node_groups = {
-    cluster = {
-      min_size     = 2
-      max_size     = 10
-      desired_size = 2
+
+    core = {
+      min_size     = 1
+      max_size     = 1
+      desired_size = 1
 
       instance_types = [var.instance_type]
-      capacity_type  = "SPOT"
+      capacity_type  = "ON_DEMAND"
+
       block_device_mappings = {
         xvda = {
           device_name = "/dev/xvda"
+
           ebs = {
-            volume_size = 1000
-            volume_type = "gp3"
-            iops        = 3000
-            #throughput            = 150
-            #encrypted             = true
+            volume_size           = 100
+            volume_type           = "gp3"
+            iops                  = 3000
             delete_on_termination = true
           }
         }
       }
-      iam_role_additional_policies = {
-        AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+    }
+
+    spot = {
+      min_size     = 0
+      max_size     = 2
+      desired_size = 0
+
+      instance_types = [
+        var.instance_type
+      ]
+
+      capacity_type = "SPOT"
+
+      block_device_mappings = {
+        xvda = {
+          device_name = "/dev/xvda"
+
+          ebs = {
+            volume_size           = 100
+            volume_type           = "gp3"
+            iops                  = 3000
+            delete_on_termination = true
+          }
+        }
       }
     }
-  }
+  }}
 
   # Cluster access entry
   # To add the current caller identity as an administrator
