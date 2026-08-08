@@ -131,7 +131,8 @@ module "eks" {
         }
       }
     }
-  }}
+  }
+
 
   # Cluster access entry
   # To add the current caller identity as an administrator
