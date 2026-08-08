@@ -14,6 +14,15 @@ module "eks" {
   cluster_name    = var.cluster_name
   cluster_version = "1.31"
 
+  pod_identity_associations = {
+    ebs_csi = {
+      namespace       = "kube-system"
+      service_account = "ebs-csi-controller-sa"
+
+      attach_aws_ebs_csi_policy = true
+    }
+  }
+
   cluster_security_group_additional_rules = {
     egress_nodes_ephemeral_ports_tcp = {
       description                = "To node 1025-65535"
